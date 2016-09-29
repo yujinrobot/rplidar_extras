@@ -1,2 +1,3 @@
-# rplidar_nodelet
-Nodelet wrapper around the core rplidar sdk
+# rplidar_extras
+
+Building on and around the rplidar sdk
