@@ -1,0 +1,19 @@
+<launch>
+  <arg name="serial_port"       default="/dev/ttyUSB1"/>
+  <arg name="serial_baudrate"   default="115200"/>
+  <arg name="frame_id"          default="laser_link"/>
+  <arg name="inverted"          default="false"/>
+  <arg name="angle_compensate"  default="true"/>
+  <arg name="topic_name"        default="scan"/>
+  <arg name="diag_time_window"  default="30"/>
+
+  <node name="rplidar_node"          pkg="rplidar_ros"  type="rplidar_node" output="screen">
+    <param name="serial_port"         type="string" value="$(arg serial_port)"/>
+    <param name="serial_baudrate"     type="int"    value="$(arg serial_baudrate)"/>
+    <param name="frame_id"            type="string" value="$(arg frame_id)"/>
+    <param name="inverted"            type="bool"   value="$(arg inverted)"/>
+    <param name="angle_compensate"    type="bool"   value="$(arg angle_compensate)"/>
+    <param name="diag_time_window"    type="int"    value="$(arg diag_time_window)"/>
+    <remap from="scan" to="$(arg topic_name)"/>
+  </node>
+</launch>

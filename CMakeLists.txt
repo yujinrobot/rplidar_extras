@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_filters
   diagnostic_msgs
   diagnostic_updater
+  rplidar_ros
 )
 
 include_directories(
@@ -17,14 +18,24 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-catkin_package()
+catkin_package(INCLUDE_DIRS include
+               LIBRARIES rplidar_nodelet
+               CATKIN_DEPENDS roscpp
+                              rosconsole
+                              sensor_msgs
+                              nodelet
+                              pluginlib
+                              message_filters
+                              diagnostic_msgs
+                              diagnostic_updater
+                              rplidar_ros
+)
 
 add_library(rplidar_nodelet src/rplidar_nodelet.cpp)
 target_link_libraries(rplidar_nodelet ${catkin_LIBRARIES})
 
 add_executable(rplidar_node src/rplidar_node.cpp)
 target_link_libraries(rplidar_node rplidar_nodelet ${catkin_LIBRARIES})
-
 
 install(TARGETS rplidar_node
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

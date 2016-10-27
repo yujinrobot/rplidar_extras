@@ -15,7 +15,7 @@
 #include "std_srvs/Empty.h"
 #include "boost/thread.hpp"
 
-#include "rplidar.h" //RPLIDAR standard sdk, all-in-one header
+#include <rplidar.h> //RPLIDAR standard sdk, all-in-one header
 
 #include <diagnostic_updater/diagnostic_updater.h>
 #include <diagnostic_updater/publisher.h>

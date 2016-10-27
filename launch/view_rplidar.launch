@@ -1,0 +1,23 @@
+<!--
+  Used for visualising rplidar in action.
+  It requires rplidar.launch.
+ -->
+<launch>
+  <arg name="serial_port"       default="/dev/ttyUSB1"/>
+  <arg name="serial_baudrate"   default="115200"/>
+  <arg name="frame_id"          default="laser"/>
+  <arg name="inverted"          default="false"/>
+  <arg name="angle_compensate"  default="true"/>
+  <arg name="diag_time_window"  default="30"/>
+
+  <include file="$(find rplidar_ros)/launch/rplidar.launch">
+    <arg name="serial_port"       value="$(arg serial_port)"/>
+    <arg name="serial_baudrate"   value="$(arg serial_baudrate)"/>
+    <arg name="frame_id"          value="$(arg frame_id)"/>
+    <arg name="inverted"          value="$(arg inverted)"/>
+    <arg name="angle_compensate"  value="$(arg angle_compensate)"/>
+    <arg name="diag_time_window"  value="$(arg diag_time_window)"/>
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rplidar_ros)/rviz/rplidar.rviz" />
+</launch>
