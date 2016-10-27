@@ -17,7 +17,7 @@
 #define DEG2RAD(x) ((x)*M_PI/180.)
 
 
-namespace rplidar_ros {
+namespace rplidar_extras {
 
   void RPlidarNodelet::onInit()
   {
@@ -541,6 +541,6 @@ namespace rplidar_ros {
     return true;
   }
 
-} // namespace rplidar_ros
+} // namespace rplidar_extras
 
-PLUGINLIB_DECLARE_CLASS(rplidar_nodelet, RPlidarNodelet, rplidar_ros::RPlidarNodelet, nodelet::Nodelet);
+PLUGINLIB_DECLARE_CLASS(rplidar_nodelet, RPlidarNodelet, rplidar_extras::RPlidarNodelet, nodelet::Nodelet);

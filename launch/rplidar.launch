@@ -7,7 +7,7 @@
   <arg name="topic_name"        default="scan"/>
   <arg name="diag_time_window"  default="30"/>
 
-  <node name="rplidar_node"          pkg="rplidar_ros"  type="rplidar_node" output="screen">
+  <node name="rplidar_node"          pkg="rplidar_extras"  type="rplidar_node" output="screen">
     <param name="serial_port"         type="string" value="$(arg serial_port)"/>
     <param name="serial_baudrate"     type="int"    value="$(arg serial_baudrate)"/>
     <param name="frame_id"            type="string" value="$(arg frame_id)"/>

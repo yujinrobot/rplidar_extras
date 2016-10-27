@@ -1,6 +1,6 @@
 <library path="lib/librplidar_nodelet">
-    <class name="rplidar_ros/RPlidarNodelet"
-           type="rplidar_ros::RPlidarNodelet"
+    <class name="rplidar_extras/RPlidarNodelet"
+           type="rplidar_extras::RPlidarNodelet"
            base_class_type="nodelet::Nodelet">
         <description>
             Nodelet for RPlidar.

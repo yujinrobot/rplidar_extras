@@ -10,7 +10,7 @@ int main(int argc, char **argv)
   nodelet::M_string remap(ros::names::getRemappings());
   nodelet::V_string nargv;
   std::string nodelet_name = ros::this_node::getName();
-  nodelet.load(nodelet_name, "rplidar_ros/RPlidarNodelet", remap, nargv);
+  nodelet.load(nodelet_name, "rplidar_extras/RPlidarNodelet", remap, nargv);
 
   boost::shared_ptr<ros::MultiThreadedSpinner> spinner;
   spinner.reset(new ros::MultiThreadedSpinner());

@@ -1,12 +1,12 @@
 /**
- * @file /rplidar_extras/include//rplidar_extras/rplidar_nodelet.hpp
+ * @file /rplidar_extras/include/rplidar_extras/rplidar_nodelet.hpp
  */
 /*****************************************************************************
 ** Ifdefs
 *****************************************************************************/
 
-#ifndef rplidar_ros_INCLUDE_RPLIDAR_NODELET_HPP_
-#define rplidar_ros_INCLUDE_RPLIDAR_NODELET_HPP_
+#ifndef rplidar_extras_INCLUDE_RPLIDAR_NODELET_HPP_
+#define rplidar_extras_INCLUDE_RPLIDAR_NODELET_HPP_
 
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
@@ -23,7 +23,7 @@
 
 using namespace rp::standalone::rplidar;
 
-namespace rplidar_ros {
+namespace rplidar_extras {
 
   class RPlidarNodelet: public nodelet::Nodelet
   {
@@ -96,6 +96,6 @@ namespace rplidar_ros {
   };
 
 
-} // namespace rplidar_ros
+} // namespace rplidar_extras
 
-#endif /* rplidar_ros_INCLUDE_RPLIDAR_NODELET_HPP_ */
+#endif /* rplidar_extras_INCLUDE_RPLIDAR_NODELET_HPP_ */
