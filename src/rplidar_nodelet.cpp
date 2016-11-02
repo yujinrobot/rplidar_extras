@@ -224,7 +224,7 @@ namespace rplidar_extras {
       updater.update();
     }
     // done!
-    RPlidarDriver::DisposeDriver(drv);
+    RPlidarDriver::DisposeDriver(&drv);
   }
 
   void RPlidarNodelet::read_scan()
@@ -396,7 +396,7 @@ namespace rplidar_extras {
         drv->disconnect();
       }
       NODELET_INFO_STREAM("RPlidar: disposing old driver instance.");
-      RPlidarDriver::DisposeDriver(drv);
+      RPlidarDriver::DisposeDriver(&drv);
     }
 
     // create the driver instance
@@ -414,14 +414,14 @@ namespace rplidar_extras {
     if (IS_FAIL(result))
     {
       NODELET_ERROR_STREAM("RPlidar: cannot bind to the specified serial port [" << serial_port << "]");
-      RPlidarDriver::DisposeDriver(drv);
+      RPlidarDriver::DisposeDriver(&drv);
       return -1;
     }
 
     // check health...
     if (!checkRPLIDARHealth(drv))
     {
-      RPlidarDriver::DisposeDriver(drv);
+      RPlidarDriver::DisposeDriver(&drv);
       return -1;
     }
 
@@ -431,7 +431,7 @@ namespace rplidar_extras {
     if ( start_scan_result != RESULT_OK )
     {
       NODELET_ERROR_STREAM("RPLidar: failed to put the device into scanning mode [" << start_scan_result << "]");
-      RPlidarDriver::DisposeDriver(drv);
+      RPlidarDriver::DisposeDriver(&drv);
       return -1;
     }
 

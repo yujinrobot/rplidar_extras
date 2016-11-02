@@ -52,7 +52,7 @@ namespace rplidar_extras {
     ~RPlidarNodelet(){
       drv->stop();
       drv->stopMotor();
-      RPlidarDriver::DisposeDriver(drv);
+      RPlidarDriver::DisposeDriver(&drv);
     };
 
   private:
