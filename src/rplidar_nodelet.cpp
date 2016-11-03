@@ -181,6 +181,10 @@ namespace rplidar_extras {
           bad_health_counter++;
           // bad_health_deque.push_back(ros::Time::now());
           rate_error_deques[0].push_back(ros::Time::now());
+          drv->reset(); // reset before checking health
+          // this has to do with express scan mode in new scoped_lock
+          // which is reading from cached data and when timeout occurs
+          // it is stuck in waiting for the thread to finish
           if (!checkRPLIDARHealth(drv))
           {
             NODELET_INFO("Bad health. Let's better re-initialise the driver.");
