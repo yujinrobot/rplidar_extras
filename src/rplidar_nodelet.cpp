@@ -69,8 +69,23 @@ namespace rplidar_extras {
 
     scan_pub = nh.advertise<sensor_msgs::LaserScan>("scan", 1000);
 
-    updater.setHardwareID("none");
-    updater.add("RPLidar Device Status", this, &RPlidarNodelet::device_diagnostics);
+    if( serial_port == std::string("/dev/rplidar_left") )
+    {
+      updater.setHardwareID( "rplidar_left" );
+      updater.add("RPLidar Left Device Status", this, &RPlidarNodelet::device_diagnostics);
+    }
+    else if( serial_port == std::string("/dev/rplidar_right") )
+    {
+      updater.setHardwareID( "rplidar_right" );
+      updater.add("RPLidar Right Device Status", this, &RPlidarNodelet::device_diagnostics);
+    }
+    else 
+    {
+      updater.setHardwareID("none");
+      updater.add("RPLidar Device Status", this, &RPlidarNodelet::device_diagnostics);
+    }      
+    
+    
 
     device_thread_ = boost::shared_ptr< boost::thread >
       (new boost::thread(boost::bind(&RPlidarNodelet::devicePoll, this)));
@@ -179,12 +194,8 @@ namespace rplidar_extras {
         else
         {
           bad_health_counter++;
-          // bad_health_deque.push_back(ros::Time::now());
           rate_error_deques[0].push_back(ros::Time::now());
           drv->reset(); // reset before checking health
-          // this has to do with express scan mode in new scoped_lock
-          // which is reading from cached data and when timeout occurs
-          // it is stuck in waiting for the thread to finish
           if (!checkRPLIDARHealth(drv))
           {
             NODELET_INFO("Bad health. Let's better re-initialise the driver.");
@@ -288,25 +299,21 @@ namespace rplidar_extras {
                          angle_min, angle_max,
                          frame_id);
            }
-      } else if (op_result == RESULT_OPERATION_FAIL) {
-          result_fail_counter++;
-          // result_fail_deque.push_back(ros::Time::now());
-          rate_error_deques[1].push_back(ros::Time::now());
-            // All the data is invalid
-            // SHOULD NOT PUBLISH ANY DATA FROM here
-            // BECAUSE IT CAN CRASH THE PROGRAMS USING THE DATA
-
-            /*
-            float angle_min = DEG2RAD(0.0f);
-            float angle_max = DEG2RAD(359.0f);
-            NODELET_WARN_STREAM("RPLidar: publishing invalid data; might burst! watch out..");
-            this->publish_scan(&scan_pub, nodes, count,
-                         start_scan_time, scan_duration, inverted,
-                         angle_min, angle_max,
-                         frame_id);
-            */
-        }
-
+      } 
+      else if (op_result == RESULT_OPERATION_FAIL) 
+      {
+        result_fail_counter++;
+        rate_error_deques[1].push_back(ros::Time::now());
+        updater.force_update();
+        NODELET_WARN_STREAM("RPLidar: RESULT_OPERATION_FAIL");
+      }
+      else
+      {
+        result_fail_counter++;
+        rate_error_deques[1].push_back(ros::Time::now());
+        updater.force_update();
+        NODELET_WARN_STREAM("RPLidar: unknown result code");
+      }
     }
     else if (op_result == RESULT_OPERATION_TIMEOUT)
     {
@@ -320,6 +327,13 @@ namespace rplidar_extras {
 
       NODELET_WARN_STREAM("RPLidar: she's dead Jim! [timed out waiting for a full 360 scan]");
       initialised = false;
+    }
+    else
+    {
+      result_fail_counter++;
+      rate_error_deques[1].push_back(ros::Time::now());
+      updater.force_update();
+      NODELET_WARN_STREAM("RPLidar: unknown result code for scan");      
     }
   }
 
