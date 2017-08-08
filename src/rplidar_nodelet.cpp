@@ -146,7 +146,7 @@ namespace rplidar_extras {
       for (  std::vector< std::deque<ros::Time> >::size_type i = 0; i != rate_error_deques.size(); i++ )
       // loop through all counter rates
       {
-        for ( std::deque<ros::Time>::iterator it = rate_error_deques[i].begin(); it != rate_error_deques[i].end(); it++ )
+        for ( std::deque<ros::Time>::iterator it = rate_error_deques[i].begin(); it != rate_error_deques[i].end(); it )
         // loop through each time stamp of error and erase out of window errors
         {
           if ( (ros::Time::now() - *it) > diag_time_window_seconds )
@@ -157,6 +157,7 @@ namespace rplidar_extras {
           }
           else
           {
+	    it++;       //tkkim
             break;
           }
         }
@@ -283,7 +284,7 @@ namespace rplidar_extras {
                          frame_id);
             } else {
                 int start_node = 0, end_node = 0;
-                int i = 0;
+                int i = 0;	// size_t   count = _countof(nodes);
                 // find the first valid node and last valid node
                 while (nodes[i++].distance_q2 == 0);
                 start_node = i-1;
@@ -361,6 +362,8 @@ namespace rplidar_extras {
         scan_msg->angle_min =  M_PI - angle_min;
         scan_msg->angle_max =  M_PI - angle_max;
       }
+      
+      if(node_count == 1) NODELET_ERROR_STREAM("IT COULD DIVIDED WITH 0"); // tkkim
       scan_msg->angle_increment =
           (scan_msg->angle_max - scan_msg->angle_min) / (double)(node_count-1);
 
